@@ -1,6 +1,6 @@
 {
   "name": "hermes-labs",
-  "description": "Hermes Labs plugins for Claude Code: prompt-audit, safety-hook, and session-recovery tools.",
+  "description": "Hermes Labs plugins for Claude Code: prompt auditing, safety hooks, session recovery, and agent guardrails.",
   "owner": {
     "name": "Hermes Labs",
     "email": "roli@hermes-labs.ai",
@@ -77,6 +77,19 @@
         "path": "integrations/claude",
         "ref": "main"
       }
+    },
+    {
+      "name": "agent-signage",
+      "description": "A PreToolUse hook that reports actionable git-state facts before file operations.",
+      "version": "0.1.2",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "hermes-labs-ai/agent-signage",
+        "path": "claude-plugin",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/hermes-labs-ai/agent-signage"
     }
   ]
 }
