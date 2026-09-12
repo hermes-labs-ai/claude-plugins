@@ -24,7 +24,7 @@ hermes-labs` refreshes the manifest from `main`.
 
 | Name | Version | What it does | Source repo |
 |---|---|---|---|
-| `hermes-blind` | 0.2.0 | Local recovery anchors for a Claude Code or Codex session, plus evidence-gated evaluation prompts — for picking a session back up without trusting its own self-report | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) |
+| `hermes-blind` | 0.2.0 | Local recovery anchors for a Claude Code or Codex session, plus evidence-gated evaluation prompts — for picking a session back up without trusting its own self-report | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) (`claude-plugin`) |
 | `lintlang` | 0.1.1 | Runs LintLang after Claude Code edits a supported prompt/config file and returns concise repair guidance for what it finds | [lintlang](https://github.com/hermes-labs-ai/lintlang) (`integrations/claude-code`) |
 | `rule-audit` | 0.1.0 | On-demand static analysis of an AI system prompt or AGENTS.md: contradictions, coverage gaps, priority ambiguities, meta-paradoxes | [rule-audit](https://github.com/hermes-labs-ai/rule-audit) (`integrations/claude-code`) |
 | `hermeneutic-gate` | 0.1.7 | Legacy advisory Stop-hook bundle for the fixed English gate. **Not certified against current Claude Stop behavior in v0.1.7** — prefer the `hermeneutic` CLI directly | [hermeneutic](https://github.com/hermes-labs-ai/hermeneutic) (`claude-plugin`) |
