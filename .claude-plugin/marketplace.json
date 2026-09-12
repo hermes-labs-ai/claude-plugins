@@ -10,7 +10,7 @@
     {
       "name": "hermes-blind",
       "description": "Local recovery anchors for Claude Code and Codex sessions, plus evidence-gated evaluation prompts",
-      "version": "0.3.0",
+      "version": "0.2.0",
       "category": "developer-tools",
       "source": {
         "source": "github",

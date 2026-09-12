@@ -25,16 +25,13 @@ hermes-labs` refreshes the manifest from `main`.
 
 | Name | Version | What it does | Source repo |
 |---|---|---|---|
-| `hermes-blind` | 0.3.0 | Local recovery anchors for Claude Code and Codex sessions, plus evidence-gated evaluation prompts | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) |
+| `hermes-blind` | 0.2.0 | Local recovery anchors for Claude Code and Codex sessions, plus evidence-gated evaluation prompts | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) |
 | `lintlang` | 0.1.1 | Returns concise LintLang repair guidance after Claude Code changes a supported language-bearing file | [lintlang](https://github.com/hermes-labs-ai/lintlang) (`integrations/claude-code`) |
 | `rule-audit` | 0.1.0 | On-demand static analysis of AI system prompts — contradictions, coverage gaps, priority ambiguities, meta-paradoxes | [rule-audit](https://github.com/hermes-labs-ai/rule-audit) (`integrations/claude-code`) |
 | `hermeneutic-gate` | 0.1.7 | Legacy advisory Stop-hook bundle for the fixed English gate. **Not certified against current Claude Stop behavior in v0.1.7** — prefer the CLI directly. Requires the `hermeneutic` package | [hermeneutic](https://github.com/hermes-labs-ai/hermeneutic) (`claude-plugin`) |
 | `little-canary` | 0.3.6 | Blocks a Claude Code turn when a local Little Canary server rejects the submitted prompt | [little-canary](https://github.com/hermes-labs-ai/little-canary) (`plugins/claude-code`) |
 | `claude-trash-guard` | 0.1.2 | Blocks permanent-delete shell commands and redirects to a recoverable trash workflow | [agent-trash-guard](https://github.com/hermes-labs-ai/agent-trash-guard) (`integrations/claude`) |
-
-Not included: **agent-signage** was not available to verify against at prep
-time — check whether it ships a `.claude-plugin/plugin.json` before adding it
-here.
+| `agent-signage` | 0.1.2 | Renders standing operational signs to the agent at tool-use time, so a rule is shown at the moment it applies rather than recalled | [agent-signage](https://github.com/hermes-labs-ai/agent-signage) (`claude-plugin`) |
 
 ## Adding a plugin
 
