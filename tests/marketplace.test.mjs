@@ -56,3 +56,89 @@ test('hermes-blind points at the cross-repo package', () => {
   });
   assert.equal(entry.version, '0.2.0');
 });
+
+// --- Path integrity: does `path` actually point at a plugin? ---------------
+//
+// The shape checks above pass as long as `path` is a non-empty string. They
+// never check that a `.claude-plugin/plugin.json` manifest actually lives at
+// that path in the target repo/ref. That gap is not hypothetical: the
+// `rule-audit` entry shipped with `path: "integrations/claude-code"` while
+// its manifest lives at the repo root — CI stayed green and the install was
+// broken. This block closes that gap with a live check.
+//
+// This requires one network call per entry, which the rest of this suite
+// deliberately avoids (it is offline and fast). A flaky or unreachable
+// network must never fail the build — fork PRs run with no credentials and
+// may have restricted egress, and a transient GitHub hiccup is not evidence
+// of a broken catalog entry. So a fetch failure, a timeout, or any non-200
+// response OTHER than 404 is treated as "we could not check" and the test is
+// skipped rather than failed. Only a 404 — GitHub definitively answering
+// that the file does not exist at that path/ref — fails the test, because
+// that is the one response that actually proves the manifest is absent.
+
+const GITHUB_HTTPS_URL = /^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\.git$/;
+const FETCH_TIMEOUT_MS = 8000;
+
+// Joins an entry's `path` onto `.claude-plugin/plugin.json`, handling the
+// `"."` (repo-root plugin) and trailing-slash cases without ever producing
+// `./.claude-plugin/...` or a `//` in the result.
+function manifestRelativePath(entryPath) {
+  const normalized = entryPath.replace(/^\.\/?$/, '').replace(/\/+$/, '');
+  return normalized
+    ? `${normalized}/.claude-plugin/plugin.json`
+    : '.claude-plugin/plugin.json';
+}
+
+// Builds the raw.githubusercontent.com URL for an entry's manifest, or null
+// if the entry's url does not match the HTTPS github.com form the other
+// tests in this file already require.
+function rawManifestUrl(source) {
+  const match = GITHUB_HTTPS_URL.exec(source.url);
+  if (!match) return null;
+  const [, owner, repo] = match;
+  return `https://raw.githubusercontent.com/${owner}/${repo}/${source.ref}/${manifestRelativePath(source.path)}`;
+}
+
+for (const plugin of manifest.plugins) {
+  test(`${plugin.name}: path resolves to an actual plugin manifest (network-checked, soft-fails offline)`, async (t) => {
+    const rawUrl = rawManifestUrl(plugin.source);
+    if (!rawUrl) {
+      t.skip(`could not derive a raw content URL from "${plugin.source.url}"`);
+      return;
+    }
+
+    let response;
+    try {
+      response = await fetch(rawUrl, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
+    } catch (err) {
+      // No network, DNS failure, timeout, proxy block, etc. We could not
+      // check — that is not evidence of a broken entry, so do not fail.
+      t.skip(`fetch failed, cannot verify path integrity from here: ${err.message}`);
+      return;
+    }
+
+    if (response.status === 404) {
+      // Definitive: GitHub successfully answered that this file is absent.
+      assert.fail(
+        `${manifestRelativePath(plugin.source.path)} does not exist in ` +
+          `${plugin.source.url} at ref "${plugin.source.ref}" (404 from ${rawUrl}). ` +
+          `"path" for "${plugin.name}" does not point at a plugin.`,
+      );
+      return;
+    }
+
+    if (!response.ok) {
+      // Rate limited, transient 5xx, etc. — inconclusive, not a failure.
+      t.skip(`non-200, non-404 response (${response.status}) from ${rawUrl}; cannot verify`);
+      return;
+    }
+
+    // 200: fetched successfully. Confirm it is at least parseable JSON, the
+    // one further check that costs nothing given we already fetched it.
+    const body = await response.text();
+    assert.doesNotThrow(
+      () => JSON.parse(body),
+      `${rawUrl} responded 200 but body is not valid JSON`,
+    );
+  });
+}
