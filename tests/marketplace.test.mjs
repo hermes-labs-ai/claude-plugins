@@ -54,5 +54,5 @@ test('hermes-blind points at the cross-repo package', () => {
     path: 'claude-plugin',
     ref: 'main',
   });
-  assert.equal(entry.version, '0.2.0');
+  assert.equal(entry.version, '0.3.0');
 });
