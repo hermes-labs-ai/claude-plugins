@@ -51,7 +51,9 @@ done without an LLM call, it is; where a plugin can't verify something (see
    for the shape: `name`, `version`, `description`, `author`, `homepage`,
    `repository`, `license`).
 2. Add an entry to `plugins` in `.claude-plugin/marketplace.json`. If
-   `plugin.json` lives at the repo root, use the `github` source:
+   `plugin.json` lives at the repo root and the plugin has components in
+   nested directories, use the HTTPS `url` source so the complete plugin is
+   cloned:
    ```json
    {
      "name": "<plugin name>",
@@ -59,8 +61,8 @@ done without an LLM call, it is; where a plugin can't verify something (see
      "version": "<matches upstream plugin.json>",
      "category": "<development|developer-tools|security|...>",
      "source": {
-       "source": "github",
-       "repo": "hermes-labs-ai/<repo>",
+       "source": "url",
+       "url": "https://github.com/hermes-labs-ai/<repo>.git",
        "ref": "main"
      }
    }
