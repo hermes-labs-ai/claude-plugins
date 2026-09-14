@@ -15,6 +15,7 @@ Then install what you need:
 ```
 /plugin install little-canary@hermes-labs
 /plugin install claude-trash-guard@hermes-labs
+/plugin install agent-kickstart@hermes-labs
 ```
 
 `claude plugin list` shows what's installed; `/plugin marketplace update
@@ -32,6 +33,7 @@ hermes-labs` refreshes the manifest from `main`.
 | `claude-trash-guard` | 0.1.2 | Blocks permanent-delete shell commands (`rm -rf` and friends) and redirects the agent to a recoverable trash workflow instead | [agent-trash-guard](https://github.com/hermes-labs-ai/agent-trash-guard) (`integrations/claude`) |
 | `agent-signage` | 0.1.2 | A `PreToolUse` hook that reports when the file you're about to touch sits in a git checkout that's behind its upstream — stays silent otherwise | [agent-signage](https://github.com/hermes-labs-ai/agent-signage) (`claude-plugin`) |
 | `hermes-jailbench` | 0.2.0 | Jailbreak regression benchmark for LLM endpoints with repeatable known-pattern attacks and deterministic scoring | [hermes-jailbench](https://github.com/hermes-labs-ai/hermes-jailbench) (repo root) |
+| `agent-kickstart` | 0.3.0 | A guided, project-local first experience for Claude Code that helps beginners start making something real (entry command `/agent-kickstart:kickstart`) | [agent-kickstart](https://github.com/hermes-labs-ai/agent-kickstart) (repo root) |
 
 ## What these have in common
 
