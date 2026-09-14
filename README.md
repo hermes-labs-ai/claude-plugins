@@ -1,5 +1,7 @@
 # hermes-labs-ai/claude-plugins
 
+[![validate-marketplace](https://github.com/hermes-labs-ai/claude-plugins/actions/workflows/validate-marketplace.yml/badge.svg)](https://github.com/hermes-labs-ai/claude-plugins/actions/workflows/validate-marketplace.yml)
+
 Claude Code plugin marketplace for Hermes Labs. This repo holds only the
 marketplace manifest (`.claude-plugin/marketplace.json`) — each plugin's code
 stays in its own repo and is pulled in by Claude Code at install time.
