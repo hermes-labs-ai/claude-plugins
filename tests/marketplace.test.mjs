@@ -98,9 +98,10 @@ const GITHUB_HTTPS_URL = /^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\.git$/;
 const FETCH_TIMEOUT_MS = 8000;
 
 // Joins an entry's `path` onto `.claude-plugin/plugin.json`, handling the
-// `"."` (repo-root plugin) and trailing-slash cases without ever producing
-// `./.claude-plugin/...` or a `//` in the result.
-function manifestRelativePath(entryPath) {
+// `"."` (repo-root plugin), missing-path (a `url` source installs from the
+// repo root, so `path` is absent) and trailing-slash cases without ever
+// producing `./.claude-plugin/...` or a `//` in the result.
+function manifestRelativePath(entryPath = '.') {
   const normalized = entryPath.replace(/^\.\/?$/, '').replace(/\/+$/, '');
   return normalized
     ? `${normalized}/.claude-plugin/plugin.json`
