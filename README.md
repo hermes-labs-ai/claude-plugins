@@ -36,6 +36,9 @@ hermes-labs` refreshes the manifest from `main`.
 | `agent-signage` | 0.1.2 | A `PreToolUse` hook that reports when the file you're about to touch sits in a git checkout that's behind its upstream — stays silent otherwise | [agent-signage](https://github.com/hermes-labs-ai/agent-signage) (`claude-plugin`) |
 | `hermes-jailbench` | 0.2.0 | Jailbreak regression benchmark for LLM endpoints with repeatable known-pattern attacks and deterministic scoring | [hermes-jailbench](https://github.com/hermes-labs-ai/hermes-jailbench) (repo root) |
 | `agent-kickstart` | 0.3.0 | A guided, project-local first experience for Claude Code that helps beginners start making something real (entry command `/agent-kickstart:kickstart`) | [agent-kickstart](https://github.com/hermes-labs-ai/agent-kickstart) (repo root) |
+| `intent-verify` | 0.2.0 | Maps markdown acceptance items to explicit implementation evidence for advisory spec-drift checks — a skill plus `/intent-verify:check` and `/intent-verify:map` commands | [intent-verify](https://github.com/hermes-labs-ai/intent-verify) (repo root) |
+| `quick-gate-python` | 0.3.1 | Runs the deterministic `pygate` Python quality gate (Ruff, Pyright, pytest) from inside Claude Code and reads its `gate-result/v1` verdict | [quick-gate-python](https://github.com/hermes-labs-ai/quick-gate-python) (repo root) |
+| `quick-gate-js` | 0.3.0 | Runs the released `quick-gate` JS/TS quality gate (ESLint, TypeScript, build, Lighthouse) from inside Claude Code and reads its `gate-result/v1` verdict | [quick-gate-js](https://github.com/hermes-labs-ai/quick-gate-js) (repo root) |
 
 ## What these have in common
 
