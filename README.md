@@ -1,5 +1,7 @@
 # hermes-labs-ai/claude-plugins
 
+[![validate-marketplace](https://github.com/hermes-labs-ai/claude-plugins/actions/workflows/validate-marketplace.yml/badge.svg)](https://github.com/hermes-labs-ai/claude-plugins/actions/workflows/validate-marketplace.yml)
+
 Claude Code plugin marketplace for Hermes Labs. This repo holds only the
 marketplace manifest (`.claude-plugin/marketplace.json`) — each plugin's code
 stays in its own repo and is pulled in by Claude Code at install time.
@@ -15,6 +17,7 @@ Then install what you need:
 ```
 /plugin install little-canary@hermes-labs
 /plugin install claude-trash-guard@hermes-labs
+/plugin install agent-kickstart@hermes-labs
 ```
 
 `claude plugin list` shows what's installed; `/plugin marketplace update
@@ -24,13 +27,15 @@ hermes-labs` refreshes the manifest from `main`.
 
 | Name | Version | What it does | Source repo |
 |---|---|---|---|
-| `hermes-blind` | 0.2.0 | Local recovery anchors for a Claude Code or Codex session, plus evidence-gated evaluation prompts — for picking a session back up without trusting its own self-report | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) (`claude-plugin`) |
-| `lintlang` | 0.1.1 | Runs LintLang after Claude Code edits a supported prompt/config file and returns concise repair guidance for what it finds | [lintlang](https://github.com/hermes-labs-ai/lintlang) (`integrations/claude-code`) |
-| `rule-audit` | 0.1.0 | On-demand static analysis of an AI system prompt or AGENTS.md: contradictions, coverage gaps, priority ambiguities, meta-paradoxes | [rule-audit](https://github.com/hermes-labs-ai/rule-audit) (`integrations/claude-code`) |
+| `hermes-blind` | 0.3.0 | Local recovery anchors for a Claude Code or Codex session, plus evidence-gated evaluation prompts — for picking a session back up without trusting its own self-report | [hermes-blind](https://github.com/hermes-labs-ai/hermes-blind) (`claude-plugin`) |
+| `lintlang` | 0.1.2 | Runs LintLang after Claude Code edits a supported prompt/config file and returns concise repair guidance for what it finds | [lintlang](https://github.com/hermes-labs-ai/lintlang) (`integrations/claude-code`) |
+| `rule-audit` | 0.4.0 | On-demand static analysis of an AI system prompt or AGENTS.md: contradictions, coverage gaps, priority ambiguities, meta-paradoxes | [rule-audit](https://github.com/hermes-labs-ai/rule-audit) (repo root — the repo is itself a Claude Code plugin) |
 | `hermeneutic-gate` | 0.1.7 | Legacy advisory Stop-hook bundle for the fixed English gate. **Not certified against current Claude Stop behavior in v0.1.7** — prefer the `hermeneutic` CLI directly | [hermeneutic](https://github.com/hermes-labs-ai/hermeneutic) (`claude-plugin`) |
 | `little-canary` | 0.3.6 | Blocks a Claude Code turn when a local Little Canary server rejects the submitted prompt | [little-canary](https://github.com/hermes-labs-ai/little-canary) (`plugins/claude-code`) |
 | `claude-trash-guard` | 0.1.2 | Blocks permanent-delete shell commands (`rm -rf` and friends) and redirects the agent to a recoverable trash workflow instead | [agent-trash-guard](https://github.com/hermes-labs-ai/agent-trash-guard) (`integrations/claude`) |
 | `agent-signage` | 0.1.2 | A `PreToolUse` hook that reports when the file you're about to touch sits in a git checkout that's behind its upstream — stays silent otherwise | [agent-signage](https://github.com/hermes-labs-ai/agent-signage) (`claude-plugin`) |
+| `hermes-jailbench` | 0.2.0 | Jailbreak regression benchmark for LLM endpoints with repeatable known-pattern attacks and deterministic scoring | [hermes-jailbench](https://github.com/hermes-labs-ai/hermes-jailbench) (repo root) |
+| `agent-kickstart` | 0.3.0 | A guided, project-local first experience for Claude Code that helps beginners start making something real (entry command `/agent-kickstart:kickstart`) | [agent-kickstart](https://github.com/hermes-labs-ai/agent-kickstart) (repo root) |
 
 ## What these have in common
 
@@ -48,7 +53,9 @@ done without an LLM call, it is; where a plugin can't verify something (see
    for the shape: `name`, `version`, `description`, `author`, `homepage`,
    `repository`, `license`).
 2. Add an entry to `plugins` in `.claude-plugin/marketplace.json`. If
-   `plugin.json` lives at the repo root, use the `github` source:
+   `plugin.json` lives at the repo root and the plugin has components in
+   nested directories, use the HTTPS `url` source so the complete plugin is
+   cloned:
    ```json
    {
      "name": "<plugin name>",
@@ -56,8 +63,8 @@ done without an LLM call, it is; where a plugin can't verify something (see
      "version": "<matches upstream plugin.json>",
      "category": "<development|developer-tools|security|...>",
      "source": {
-       "source": "github",
-       "repo": "hermes-labs-ai/<repo>",
+       "source": "url",
+       "url": "https://github.com/hermes-labs-ai/<repo>.git",
        "ref": "main"
      }
    }

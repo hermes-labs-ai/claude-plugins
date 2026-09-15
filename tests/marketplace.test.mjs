@@ -4,7 +4,8 @@
 // {"source":"github","repo":...}. Claude Code resolves that form over
 // git@github.com with no HTTPS fallback, so on any machine without an SSH key
 // for the org the install aborts and no plugin lands. Every entry here must
-// use the git-subdir form with an explicit HTTPS url.
+// use an explicit HTTPS git source. Use git-subdir for subdirectories and url
+// for repo-root plugins whose nested components must all be included.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -24,11 +25,10 @@ test('manifest declares plugins', () => {
 });
 
 for (const plugin of manifest.plugins) {
-  test(`${plugin.name}: source is git-subdir, not a repo root source`, () => {
-    assert.equal(
-      plugin.source.source,
-      'git-subdir',
-      `"${plugin.source.source}" resolves over SSH; use git-subdir with an HTTPS url`,
+  test(`${plugin.name}: source avoids an SSH-based root source`, () => {
+    assert.ok(
+      ['git-subdir', 'url'].includes(plugin.source.source),
+      `"${plugin.source.source}" is not an accepted HTTPS git source`,
     );
     assert.ok(
       !('repo' in plugin.source),
@@ -37,11 +37,18 @@ for (const plugin of manifest.plugins) {
   });
 
   test(`${plugin.name}: url is HTTPS and the entry is fully pinned`, () => {
-    const { url, path, ref } = plugin.source;
+    const { url, ref } = plugin.source;
     assert.ok(!SSH_URL.test(url), `${url} is an SSH url`);
     assert.match(url, /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\.git$/);
-    assert.ok(typeof path === 'string' && path.length > 0);
     assert.ok(typeof ref === 'string' && ref.length > 0);
+    if (plugin.source.source === 'git-subdir') {
+      assert.ok(
+        typeof plugin.source.path === 'string' && plugin.source.path.length > 0,
+      );
+    } else {
+      assert.equal(plugin.source.source, 'url');
+      assert.ok(!('path' in plugin.source));
+    }
   });
 }
 
@@ -54,7 +61,18 @@ test('hermes-blind points at the cross-repo package', () => {
     path: 'claude-plugin',
     ref: 'main',
   });
-  assert.equal(entry.version, '0.2.0');
+  assert.equal(entry.version, '0.3.0');
+});
+
+test('agent-kickstart uses a full HTTPS git source for its repo-root plugin', () => {
+  const entry = manifest.plugins.find((p) => p.name === 'agent-kickstart');
+  assert.ok(entry, 'agent-kickstart is missing from the catalog');
+  assert.deepEqual(entry.source, {
+    source: 'url',
+    url: 'https://github.com/hermes-labs-ai/agent-kickstart.git',
+    ref: 'main',
+  });
+  assert.equal(entry.version, '0.3.0');
 });
 
 // --- Path integrity: does `path` actually point at a plugin? ---------------
