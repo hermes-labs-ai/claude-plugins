@@ -153,6 +153,19 @@
         "ref": "main"
       },
       "homepage": "https://github.com/hermes-labs-ai/quick-gate-js"
+    },
+    {
+      "name": "hermes-gate",
+      "description": "Receipt-bound completion rail: SessionStart injects the completion contract, Stop runs the cached fast gate advisory-only, and PreToolUse denies a Bash commit/push/PR boundary command missing its matching receipt.",
+      "version": "0.1.4",
+      "category": "developer-tools",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/hermes-labs-ai/hermes-gate.git",
+        "path": "claude-plugin",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/hermes-labs-ai/hermes-gate"
     }
   ]
 }
