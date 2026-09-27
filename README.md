@@ -57,6 +57,14 @@ The historical `hermes-labs-ai/copilot-plugins` route remains a compatibility
 feed. Its entries are generated from this catalog rather than maintained as a
 second source of truth.
 
+## Antigravity
+
+Use the Hermes tools you already have in Gemini CLI with Google's native
+`agy plugin import gemini` route, or install an existing portable skill package.
+See the [Antigravity guide](docs/antigravity.md) to choose a tool and bring across
+its skills or MCP connection. Hook-based guardrails require a host-specific
+adapter; the guide identifies those separately.
+
 ## Capability language
 
 The catalog records capability type and compatibility separately:
