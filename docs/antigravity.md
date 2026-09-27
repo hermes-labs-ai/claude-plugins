@@ -66,21 +66,6 @@ Google documents these changes:
 
 For hook-based tools, keep the original Gemini installation available until the Antigravity behavior has been tested. Gemini events such as `BeforeAgent`, `BeforeTool`, `AfterTool`, and `AfterAgent` cannot be treated as equivalent to Antigravity events by renaming the manifest. Input fields, tool names, event timing, outputs, and timeout units also matter.
 
-## Suggested roadmap for automatic hooks
-
-These are proposed follow-on adapters, not enabled features or scheduled changes. Implement each in its product repository as an opt-in Antigravity package, reusing the existing scanner or decision logic.
-
-| Order | Product | Proposed adapter | Acceptance before advertising support |
-| --- | --- | --- | --- |
-| 1 | LintLang | Advisory `PostToolUse` checks after supported file edits, with no automatic fixes. | A native edit triggers a useful diagnostic; reads and unrelated tools stay quiet. |
-| 2 | Agent Trash Guard | `PreToolUse` translation for Antigravity command payloads, preserving the host's permission policy. | A denied destructive command never executes; normal commands retain normal permissions. |
-| 3 | Hermeneutic | Evaluate a completed response at `Stop`, using the Antigravity transcript format and a bounded retry policy. | Finish detection, diagnostic delivery, and retry limits work without creating a continuation loop. |
-| 4 | Little Canary | First establish a supported way to block before inference. `PreInvocation` injection alone does not establish that contract. | A rejected prompt is proven not to reach the model; outages follow the documented product policy. |
-
-Place new adapters beside the product's existing integrations: `integrations/antigravity/` for LintLang, Agent Trash Guard, and Hermeneutic; `plugins/antigravity/` for Little Canary. Keep existing host manifests and handlers unchanged. Use plugin-local hook registration, distinctive hook names, and explicit installation; do not rewrite global hook files or register a second copy of an imported Gemini hook. Reuse current dependencies and place focused adapter tests in the existing test suite. Run the original host regressions as well as native Antigravity dispatch checks before release.
-
-The [native hook contract](https://antigravity.google/docs/hooks/) governs event timing, payloads, decisions, and timeout units. A manifest conversion is only the first step.
-
 ## Fidelis: connect the existing MCP server
 
 MCP means Model Context Protocol: Antigravity launches a small process that exposes Fidelis's memory tools. There is no separate Antigravity memory backend to deploy.
@@ -110,7 +95,7 @@ In Antigravity's `mcp_config.json`, merge this entry into the existing `mcpServe
 
 Restart or reload the client, confirm the six Fidelis tools are listed, and call `fidelis_health`. This verifies the connection without storing a memory. A healthy service and available embeddings are separate from having notes to retrieve; use your existing store or deliberately ingest the notes you want available.
 
-The earlier isolated import check lacked `uvx`. That was a missing prerequisite in the test container, not a requirement for a new Fidelis adapter. See [Fidelis's technical reference](https://github.com/hermes-labs-ai/fidelis/blob/main/docs/full-reference.md) for service setup and supported platforms.
+See [Fidelis's technical reference](https://github.com/hermes-labs-ai/fidelis/blob/main/docs/full-reference.md) for service setup and supported platforms.
 
 ## Google references
 
