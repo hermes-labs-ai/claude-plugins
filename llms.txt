@@ -27,6 +27,15 @@ only while the committed receipt has a passing result for the same pinned
 commit and version; `verify` enforces that. Codex `verified` entries rest on
 earlier manual checks and are not receipt-backed.
 
+Antigravity enablement:
+
+- `docs/antigravity.md` — reuse existing Gemini CLI skills and MCP connections
+  through Google's native importer or a portable plugin install. Identifies
+  hooks needing native adapters and session-reader limitations.
+- `evidence/antigravity-import-1.2.11.json` — pinned native import/install
+  results, distinct from agent execution, hook enforcement, and MCP connection.
+- Antigravity is not yet a generated marketplace target in `catalog.json`.
+
 Build and verify:
 
 ```bash
