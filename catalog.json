@@ -50,7 +50,7 @@
       "source": {
         "path": "integrations/claude-code",
         "ref": "main",
-        "commit": "4c06241630f5c5b9882e4ee607721ae57717d013"
+        "commit": "6115fb5b86611b81e18144a9d9ec7111b68978f5"
       },
       "targets": [
         "claude",
@@ -75,7 +75,7 @@
       "source": {
         "path": "integrations/copilot-cli",
         "ref": "main",
-        "commit": "e06d2a57d7ae474ac9cc42b530aeb1e7f13d2a65"
+        "commit": "6115fb5b86611b81e18144a9d9ec7111b68978f5"
       },
       "targets": [
         "copilot"
@@ -164,13 +164,13 @@
     {
       "id": "little-canary",
       "description": "Screens inbound prompts through a local Little Canary service before the host sends them to the main model.",
-      "version": "0.3.8",
+      "version": "0.4.0",
       "category": "security",
       "repository": "https://github.com/hermes-labs-ai/little-canary",
       "source": {
         "path": "plugins/claude-code",
-        "ref": "v0.3.8",
-        "commit": "3851078663b49b751c2cd246ca57eb89d534dc37"
+        "ref": "v0.4.0",
+        "commit": "61855a940a66fb8319742756c3ff72c720a89160"
       },
       "targets": [
         "claude",
