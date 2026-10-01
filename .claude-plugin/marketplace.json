@@ -29,7 +29,7 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/hermes-labs-ai/lintlang.git",
-        "ref": "main",
+        "ref": "v0.8.2",
         "sha": "6115fb5b86611b81e18144a9d9ec7111b68978f5",
         "path": "integrations/claude-code"
       }
