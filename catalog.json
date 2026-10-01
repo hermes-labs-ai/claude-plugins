@@ -44,7 +44,7 @@
     {
       "id": "lintlang",
       "description": "Runs the released LintLang CLI on demand as a portable audit skill, with a separate automatic post-edit hook for Claude Code.",
-      "version": "0.2.0",
+      "version": "0.8.2",
       "category": "development",
       "repository": "https://github.com/hermes-labs-ai/lintlang",
       "source": {
@@ -61,7 +61,7 @@
         "hook"
       ],
       "compatibility": {
-        "claude": "verified",
+        "claude": "listed-unverified",
         "codex": "listed-unverified",
         "copilot": "unsupported"
       }
@@ -180,7 +180,7 @@
         "hook"
       ],
       "compatibility": {
-        "claude": "verified",
+        "claude": "listed-unverified",
         "codex": "unsupported",
         "copilot": "listed-unverified"
       }
