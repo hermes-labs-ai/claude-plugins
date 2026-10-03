@@ -42,7 +42,7 @@ The integration tests exercise real Loki provider discovery and `MemoryManager` 
 
 ## Migration from the standalone repository
 
-This directory is the maintained source. The former `hermes-labs-ai/loki-fidelis` repository is preserved at [roli-lpci/loki-fidelis](https://github.com/roli-lpci/loki-fidelis) for history and existing Git URL redirects. Existing installations continue to work. To switch their update source to this directory, run `loki plugins install hermes-labs-ai/plugins/adapters/loki/fidelis --force`. If the old source was pinned, also pass `--ref <full-plugins-commit-SHA>`; Loki requires an explicit revision when replacing a pinned installation.
+This directory is the maintained source. The standalone `loki-fidelis` repository has been retired. Existing installed copies can still run; switch their update source to this directory with `loki plugins install hermes-labs-ai/plugins/adapters/loki/fidelis --force`. If the old source was pinned, also pass `--ref <full-plugins-commit-SHA>`; Loki requires an explicit revision when replacing a pinned installation.
 
 The adapter retains its original [MIT license](LICENSE). Fidelis itself remains independently packaged as `fidelis-memory`.
 
