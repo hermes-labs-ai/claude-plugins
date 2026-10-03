@@ -56,9 +56,29 @@ copilot plugin marketplace add hermes-labs-ai/plugins
 copilot plugin install hermes-blind@hermes-labs-copilot
 ```
 
-The historical `hermes-labs-ai/copilot-plugins` route remains a compatibility
-feed. Its entries are generated from this catalog rather than maintained as a
-second source of truth.
+`hermes-labs-ai/plugins` is the canonical Copilot route. The redundant
+`copilot-plugins` repository has been retired; the marketplace name remains
+`hermes-labs-copilot`.
+
+### Migrating an existing Copilot marketplace
+
+Run `copilot plugin list` and record the plugins installed from
+`hermes-labs-copilot`. Uninstall those entries with
+`copilot plugin uninstall PLUGIN@hermes-labs-copilot`, then switch the source:
+
+```bash
+copilot plugin marketplace remove hermes-labs-copilot
+copilot plugin marketplace add hermes-labs-ai/plugins
+```
+
+Reinstall the recorded plugins using `copilot plugin install
+PLUGIN@hermes-labs-copilot`. Replace the historical `claude-trash-guard` name
+with `agent-trash-guard`, which supplies the native Copilot hook. LintLang and
+Agent Signage also resolve to native Copilot packages in this catalog. Every
+product in the former feed remains available; this catalog additionally lists
+Hermes Rubric and newer plugin revisions.
+
+GitHub documents the [marketplace registration and removal commands](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing).
 
 ## Antigravity
 
