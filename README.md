@@ -4,12 +4,15 @@
 
 Canonical distribution catalog for Hermes Labs agent plugins. Product
 implementations, MCP servers, skills, hooks, and release workflows remain in
-their product repositories. This repository owns only:
+their product repositories. This repository owns:
 
 - `catalog.json`, the single reviewed build input;
 - `scripts/generate.mjs`, which deterministically emits native host manifests;
 - `scripts/verify.mjs`, which checks identifiers, host claims, immutable pins,
   generated output, and optionally the pinned upstream manifests.
+- `adapters/<host>/<plugin>/`, small native adapters for hosts whose APIs need
+  a bridge to an existing product. `catalog.json` records these separately as
+  `nativeAdapters`; they are installed with the host's own installer.
 
 ## Generated manifests
 
@@ -64,6 +67,36 @@ Use the Hermes tools you already have in Gemini CLI with Google's native
 See the [Antigravity guide](docs/antigravity.md) to choose a tool and bring across
 its skills or MCP connection. Hook-based guardrails require a host-specific
 adapter; the guide identifies those separately.
+
+## Native host adapters
+
+One catalog can distribute plugins across hosts, but their runtime APIs differ.
+Use the existing MCP connection for shared tool access wherever a host supports
+MCP. Features such as prompt-time recall or event hooks may need a small native
+adapter. Keep that bridge here, while the product's service and logic stay in
+the product repository. This avoids a separate repository per integration and
+keeps product repositories free of host packaging.
+
+The reusable layout is `adapters/<host>/<plugin>/`, containing the host's native
+manifest, adapter, README, license, and integration tests. Add a `nativeAdapters`
+row to `catalog.json` for discovery. These rows are independent of marketplace
+entries and do not claim compatibility with other hosts. Validate with the
+host's native validator and test against its real API before publishing.
+
+### Loki
+
+[Fidelis for Loki](adapters/loki/fidelis/) connects Loki's `MemoryProvider` API
+to the existing local Fidelis HTTP service. It adds no plugin dependencies.
+
+```bash
+loki plugins install hermes-labs-ai/plugins/adapters/loki/fidelis
+loki memory setup
+```
+
+Select `fidelis` in setup, then restart Loki. Add `--ref <full-plugins-commit-SHA>`
+to the install command for an immutable pin. This is Loki's native subdirectory
+install route; it remains a custom source rather than an entry in Loki's curated
+catalog. Other tools can use the same adapter layout with their own host API.
 
 ## Capability language
 
@@ -182,6 +215,7 @@ verifier is offline and fails if generated files drift from the catalog.
 6. Commit `catalog.json`, all three generated manifests, and any updated
    receipt together.
 
-Never copy product implementation into this repository, replace a commit pin
+Keep native adapters limited to host translation; do not copy product services
+or core implementations into this repository. Never replace a commit pin
 with a moving branch-only reference, or mark a host `verified` based only on
 manifest parsing.

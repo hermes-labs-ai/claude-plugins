@@ -1,0 +1,7 @@
+name: fidelis
+version: 0.1.0
+description: "Local Fidelis memory for Loki: prompt-time recall and explicit, verbatim fact storage."
+provides_tools: []
+provides_hooks: []
+provides_middleware: []
+requires_env: []

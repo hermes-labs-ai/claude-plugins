@@ -19,3 +19,43 @@ jobs:
       - run: npm run verify:network
       - run: npm run generate
       - run: git diff --exit-code -- catalog.json .claude-plugin/marketplace.json .agents/plugins/marketplace.json .github/plugin/marketplace.json
+
+  loki-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: wundercorp/loki
+          ref: 8545148c0430cb30cc716f1556a6d6cea16b7840
+          path: .loki-test-source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated adapter test dependencies
+        run: pip install PyYAML==6.0.3 rich==15.0.0 python-dotenv==1.2.4 requests==2.34.2 packaging==26.3
+      - name: Validate native package and catalog metadata
+        env:
+          PYTHONPATH: .loki-test-source
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+          from loki_cli.plugin_validate import validate_plugin_dir
+          catalog = json.loads(Path('catalog.json').read_text())
+          for adapter in catalog['nativeAdapters']:
+              if adapter['host'] != 'loki':
+                  continue
+              root = Path(adapter['path'])
+              manifest = yaml.safe_load((root / 'plugin.yaml').read_text())
+              assert manifest['name'] == adapter['id']
+              assert manifest['version'] == adapter['version']
+              report = validate_plugin_dir(root)
+              print(json.dumps(report.to_dict(), indent=2))
+              assert report.ok, report.failures
+          PY
+      - name: Exercise real Loki provider discovery and memory manager
+        env:
+          PYTHONPATH: .loki-test-source
+        run: python -m unittest discover -s adapters/loki/fidelis/tests -v

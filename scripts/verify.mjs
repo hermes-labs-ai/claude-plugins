@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { externalSource, json, pluginsFor, readCatalog, root } from './catalog-lib.mjs';
@@ -19,6 +19,30 @@ check(catalog.catalog?.namespaces?.codex === 'hermes-labs', 'Codex namespace mus
 check(catalog.catalog?.namespaces?.copilot === 'hermes-labs-copilot', 'Copilot namespace must remain hermes-labs-copilot');
 
 const idsByHost = Object.fromEntries(['claude', 'codex', 'copilot'].map((host) => [host, new Set()]));
+const adapterIds = new Set();
+for (const adapter of catalog.nativeAdapters ?? []) {
+  const key = `${adapter.host}/${adapter.id}`;
+  const validName = (name) => /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(name ?? '');
+  const validPath = validName(adapter.host) && validName(adapter.id)
+    && adapter.path === `adapters/${adapter.host}/${adapter.id}`;
+  check(validPath, `${key}: invalid native adapter path`);
+  check(!adapterIds.has(key), `${key}: duplicate native adapter`);
+  adapterIds.add(key);
+  check(typeof adapter.version === 'string' && adapter.version.length > 0, `${key}: version is required`);
+  check(typeof adapter.description === 'string' && adapter.description.length > 0, `${key}: description is required`);
+  check(/^https:\/\//.test(adapter.product ?? ''), `${key}: HTTPS product URL is required`);
+  check(Array.isArray(adapter.capabilities) && adapter.capabilities.length > 0
+    && adapter.capabilities.every((capability) => typeof capability === 'string' && capability.length > 0)
+    && new Set(adapter.capabilities).size === adapter.capabilities.length, `${key}: unique capabilities are required`);
+  if (!validPath) continue;
+  for (const file of ['README.md', 'LICENSE', 'tests']) {
+    try {
+      await access(resolve(root, adapter.path, file));
+    } catch {
+      errors.push(`${key}: missing ${file}`);
+    }
+  }
+}
 for (const plugin of catalog.plugins) {
   check(/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(plugin.id), `${plugin.id}: invalid id`);
   check(/^https:\/\/github\.com\/hermes-labs-ai\/[A-Za-z0-9_.-]+$/.test(plugin.repository), `${plugin.id}: invalid repository`);
@@ -186,4 +210,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`verified ${catalog.plugins.length} catalog entries${network ? ' with pinned upstream manifests' : ''}`);
+console.log(`verified ${catalog.plugins.length} catalog entries${network ? ' with pinned upstream manifests' : ''} and ${adapterIds.size} native adapters`);
