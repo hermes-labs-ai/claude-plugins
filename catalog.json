@@ -15,6 +15,17 @@
       "copilot": "hermes-labs-copilot"
     }
   },
+  "nativeAdapters": [
+    {
+      "id": "fidelis",
+      "host": "loki",
+      "path": "adapters/loki/fidelis",
+      "version": "0.1.0",
+      "description": "Native Loki memory provider backed by the local Fidelis service.",
+      "capabilities": ["memory-provider"],
+      "product": "https://github.com/hermes-labs-ai/fidelis"
+    }
+  ],
   "plugins": [
     {
       "id": "hermes-blind",
