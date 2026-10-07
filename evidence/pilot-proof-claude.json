@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "kind": "pilot-proof",
   "host": "claude",
-  "hostVersion": "2.1.278 (Claude Code)",
+  "hostVersion": "2.1.292 (Claude Code)",
   "marketplace": {
     "ref": "hermes-labs-ai/plugins",
-    "resolvedRef": "hermes-labs-ai/plugins@iris/pilot-proof-pack",
-    "sourceRef": "iris/pilot-proof-pack",
-    "commit": "2ee626d3e33f720e0591b874b22b617079ffb60d",
+    "resolvedRef": "hermes-labs-ai/plugins@catalog/add-supersearch",
+    "sourceRef": "catalog/add-supersearch",
+    "commit": "06781b50508199e8b54931f3c75d16ec44378ce9",
     "name": "hermes-labs",
     "transport": "https",
     "preexisting": false
@@ -20,17 +20,9 @@
       "plugins": 0
     },
     "marketplaces": [
-      "claude-plugins-official",
-      "intent-verify"
+      "anthropic-plugin-directory"
     ],
-    "plugins": [
-      "frontend-design@claude-plugins-official",
-      "intent-verify@intent-verify",
-      "playwright@claude-plugins-official",
-      "pr-review-toolkit@claude-plugins-official",
-      "pyright-lsp@claude-plugins-official",
-      "swift-lsp@claude-plugins-official"
-    ]
+    "plugins": []
   },
   "finalState": {
     "ok": true,
@@ -39,17 +31,9 @@
       "plugins": 0
     },
     "marketplaces": [
-      "claude-plugins-official",
-      "intent-verify"
+      "anthropic-plugin-directory"
     ],
-    "plugins": [
-      "frontend-design@claude-plugins-official",
-      "intent-verify@intent-verify",
-      "playwright@claude-plugins-official",
-      "pr-review-toolkit@claude-plugins-official",
-      "pyright-lsp@claude-plugins-official",
-      "swift-lsp@claude-plugins-official"
-    ]
+    "plugins": []
   },
   "restored": true,
   "results": [
@@ -135,15 +119,15 @@
     },
     {
       "id": "lintlang",
-      "version": "0.2.0",
+      "version": "0.8.2",
       "declared": [
         "skill",
         "hook"
       ],
-      "compatibility": "verified",
+      "compatibility": "listed-unverified",
       "source": {
         "repository": "https://github.com/hermes-labs-ai/lintlang",
-        "commit": "4c06241630f5c5b9882e4ee607721ae57717d013",
+        "commit": "6115fb5b86611b81e18144a9d9ec7111b68978f5",
         "path": "integrations/claude-code"
       },
       "observed": {
@@ -379,14 +363,14 @@
     },
     {
       "id": "little-canary",
-      "version": "0.3.8",
+      "version": "0.4.0",
       "declared": [
         "hook"
       ],
-      "compatibility": "verified",
+      "compatibility": "listed-unverified",
       "source": {
         "repository": "https://github.com/hermes-labs-ai/little-canary",
-        "commit": "3851078663b49b751c2cd246ca57eb89d534dc37",
+        "commit": "61855a940a66fb8319742756c3ff72c720a89160",
         "path": "plugins/claude-code"
       },
       "observed": {
@@ -1102,11 +1086,91 @@
         "details": 0,
         "uninstall": 0
       }
+    },
+    {
+      "id": "supersearch",
+      "version": "0.11.0",
+      "declared": [
+        "skill"
+      ],
+      "compatibility": "verified",
+      "source": {
+        "repository": "https://github.com/hermes-labs-ai/supersearch",
+        "commit": "475645868b6c4e00f82dde04f2b9d6cf125d19b6",
+        "path": "."
+      },
+      "observed": {
+        "inventory": {
+          "skills": {
+            "count": 1,
+            "names": [
+              "supersearch"
+            ]
+          },
+          "agents": {
+            "count": 0,
+            "names": []
+          },
+          "hooks": {
+            "count": 0,
+            "names": []
+          },
+          "mcpServers": {
+            "count": 0,
+            "names": []
+          },
+          "lspServers": {
+            "count": 0,
+            "names": []
+          }
+        },
+        "installedTree": {
+          "resolved": true,
+          "skills": [
+            "supersearch"
+          ],
+          "commands": []
+        }
+      },
+      "checks": [
+        {
+          "capability": "hook",
+          "declared": false,
+          "observed": false,
+          "status": "pass"
+        },
+        {
+          "capability": "mcp",
+          "declared": false,
+          "observed": false,
+          "status": "pass"
+        },
+        {
+          "capability": "skill",
+          "declared": true,
+          "observed": true,
+          "status": "pass",
+          "note": "host reports skills and commands in one Skills bucket; separated from the installed tree"
+        },
+        {
+          "capability": "command",
+          "declared": false,
+          "observed": false,
+          "status": "pass",
+          "note": "host reports skills and commands in one Skills bucket; separated from the installed tree"
+        }
+      ],
+      "verdict": "pass",
+      "lifecycle": {
+        "install": 0,
+        "details": 0,
+        "uninstall": 0
+      }
     }
   ],
   "summary": {
-    "total": 13,
-    "pass": 13,
+    "total": 14,
+    "pass": 14,
     "fail": 0,
     "unresolved": 0
   },
@@ -1120,7 +1184,7 @@
       "status": 0
     },
     {
-      "command": "claude plugin marketplace add hermes-labs-ai/plugins@iris/pilot-proof-pack",
+      "command": "claude plugin marketplace add hermes-labs-ai/plugins@catalog/add-supersearch",
       "status": 0
     },
     {
@@ -1281,6 +1345,18 @@
     },
     {
       "command": "claude plugin uninstall hermes-gate@hermes-labs",
+      "status": 0
+    },
+    {
+      "command": "claude plugin install supersearch@hermes-labs",
+      "status": 0
+    },
+    {
+      "command": "claude plugin details supersearch@hermes-labs",
+      "status": 0
+    },
+    {
+      "command": "claude plugin uninstall supersearch@hermes-labs",
       "status": 0
     },
     {
