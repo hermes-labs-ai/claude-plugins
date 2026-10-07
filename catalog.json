@@ -468,7 +468,7 @@
         "skill"
       ],
       "compatibility": {
-        "claude": "listed-unverified",
+        "claude": "verified",
         "codex": "listed-unverified",
         "copilot": "unsupported"
       }
