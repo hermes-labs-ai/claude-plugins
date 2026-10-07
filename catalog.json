@@ -447,6 +447,31 @@
         "codex": "listed-unverified",
         "copilot": "listed-unverified"
       }
+    },
+    {
+      "id": "supersearch",
+      "description": "Collects bounded public search evidence with a source-explicit supersearch.search.v1 receipt; returns evidence, not answers.",
+      "version": "0.11.0",
+      "category": "productivity",
+      "repository": "https://github.com/hermes-labs-ai/supersearch",
+      "homepage": "https://github.com/hermes-labs-ai/supersearch",
+      "source": {
+        "path": ".",
+        "ref": "main",
+        "commit": "475645868b6c4e00f82dde04f2b9d6cf125d19b6"
+      },
+      "targets": [
+        "claude",
+        "codex"
+      ],
+      "capabilities": [
+        "skill"
+      ],
+      "compatibility": {
+        "claude": "listed-unverified",
+        "codex": "listed-unverified",
+        "copilot": "unsupported"
+      }
     }
   ]
 }

@@ -147,6 +147,24 @@
       "version": "0.1.7",
       "repository": "https://github.com/hermes-labs-ai/hermes-gate",
       "homepage": "https://github.com/hermes-labs-ai/hermes-gate"
+    },
+    {
+      "name": "supersearch",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/hermes-labs-ai/supersearch.git",
+        "ref": "main",
+        "sha": "475645868b6c4e00f82dde04f2b9d6cf125d19b6"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "description": "Collects bounded public search evidence with a source-explicit supersearch.search.v1 receipt; returns evidence, not answers.",
+      "version": "0.11.0",
+      "repository": "https://github.com/hermes-labs-ai/supersearch",
+      "homepage": "https://github.com/hermes-labs-ai/supersearch"
     }
   ]
 }

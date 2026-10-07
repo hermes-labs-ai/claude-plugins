@@ -26,12 +26,12 @@ test('migration preserves the two installed marketplace namespaces', () => {
 });
 
 test('the complete host inventories are mapped once per host in catalog.json', () => {
-  assert.equal(catalog.plugins.length, 17);
+  assert.equal(catalog.plugins.length, 18);
   for (const host of ['claude', 'codex', 'copilot']) {
     const entries = catalog.plugins.filter((plugin) => plugin.targets.includes(host));
     assert.equal(new Set(entries.map((plugin) => plugin.id)).size, entries.length);
   }
-  assert.equal(claude.plugins.length, 13);
+  assert.equal(claude.plugins.length, 14);
   assert.equal(copilot.plugins.length, 13);
   assert.deepEqual(
     claude.plugins.map((plugin) => plugin.name),
